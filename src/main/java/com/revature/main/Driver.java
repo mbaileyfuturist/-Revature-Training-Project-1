@@ -10,12 +10,12 @@ public class Driver {
 		CarDao dao = new CarDao();
 		
 		//Create a car object.
-		Car supra = new Car("Toyota", "Supra", "Silver", 25, 382, 155, 3.9, 2021);
-		Car viper = new Car("Dodge", "Viper", "Blue", 12, 645, 206, 3.8, 2021);
+		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155, 32);
+		Car viper = new Car("Dodge", "Viper", 2021, "Blue", 645, 3.0,  206, 19);
 
 		
 		//insert it using CarDao.
-		int pk = dao.insert(supra);
+		int pk = dao.insert(viper);
 		
 		//boolean deleted = dao.delete(supra);
 		

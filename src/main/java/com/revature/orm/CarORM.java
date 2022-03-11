@@ -142,13 +142,13 @@ public class CarORM {
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlStatementBuilder.toString());
 			
-			preparedStatement.setDouble(1, car.getMpg());
-			preparedStatement.setDouble(2, car.getAcceleration());
+			preparedStatement.setDouble(1, car.getZeroToSixty());
+			preparedStatement.setDouble(2, car.getHorsePower());
 			preparedStatement.setString(3, car.getColor());
-			preparedStatement.setDouble(4, car.getHorsePower());
-			preparedStatement.setInt(5, car.getTopSpeed());
-			preparedStatement.setInt(6, car.getYear());
-			preparedStatement.setString(7, car.getModel());
+			preparedStatement.setDouble(4, car.getMpg());
+			preparedStatement.setInt(5, car.getYear());
+			preparedStatement.setString(6, car.getModel());
+			preparedStatement.setDouble(7, car.getTopspeed());
 			preparedStatement.setString(8, car.getMake());
 			
 			ResultSet resultSet;

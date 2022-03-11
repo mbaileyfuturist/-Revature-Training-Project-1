@@ -2,62 +2,71 @@ package com.revature.models;
 
 import java.util.Objects;
 
-/*
- * Models
-Id
-Mpg
-Horse power
-Topspeed
-Acceleration: speed from 0 - 60
-Year
-Type: enum Sports car, sedan, coup
-Color:
-Transmission Type: Enum Automatic, manual
+import com.revature.annotations.Column;
+import com.revature.annotations.Table;
 
- */
 
+@Table(name = "car_details")
 public class Car {
 
+	@Column(name="id")
 	private int carId; 
-	private String make; 	
-	private double year;
-	private String color; 
-	private boolean zeroToSixty; 
+	
+	@Column(name = "make")
+	private String make; 
+	
+	@Column(name = "model")
+	private String model;
+	
+	@Column(name = "manufacture_year")
+	private int year;
+	
+	@Column(name = "color")
+	private String color;
+	
+	@Column(name = "horse_power")
+	private int horsePower;
+	
+	@Column(name = "acceleration")
+	private double zeroToSixty;
+	
+	@Column(name = "top_spedd")
 	private double topspeed; 
 
+	@Column(name = "mpg")
 	private double mpg; 
-	
-	// no args constructor
-	
+		
 	public Car() {
 		
 	}
 
-	// no-id constructor
-	
-	public Car(String make, String color, boolean zeroToSixty, double topspeed, double year, double mpg) {
-		super();
-		this.make = make;
-		this.color = color;
-		this.zeroToSixty = zeroToSixty;
-		this.topspeed = topspeed;
-		this.year = year;
-		this.mpg = mpg;
-	}
-
-	// full args constructor
-	
-	public Car(int carId, String make, String color, boolean zeroToSixty, double topspeed, double year, double mpg) {
+	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
+			double topspeed, double mpg) {
 		super();
 		this.carId = carId;
 		this.make = make;
+		this.model = model;
+		this.year = year;
 		this.color = color;
+		this.horsePower = horsePower;
 		this.zeroToSixty = zeroToSixty;
 		this.topspeed = topspeed;
-		this.year = year;
 		this.mpg = mpg;
 	}
 
+	public Car(int carId, String make, String model, int year, String color, int horsePower, double zeroToSixty,
+			double topspeed, double mpg) {
+		super();
+		this.carId = carId;
+		this.make = make;
+		this.model = model;
+		this.year = year;
+		this.color = color;
+		this.horsePower = horsePower;
+		this.zeroToSixty = zeroToSixty;
+		this.topspeed = topspeed;
+		this.mpg = mpg;
+	}
 
 	public int getCarId() {
 		return carId;
@@ -75,11 +84,19 @@ public class Car {
 		this.make = make;
 	}
 
-	public double getYear() {
+	public String getModel() {
+		return model;
+	}
+
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	public int getYear() {
 		return year;
 	}
 
-	public void setYear(double year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -91,11 +108,19 @@ public class Car {
 		this.color = color;
 	}
 
-	public boolean isZeroToSixty() {
+	public int getHorsePower() {
+		return horsePower;
+	}
+
+	public void setHorsePower(int horsePower) {
+		this.horsePower = horsePower;
+	}
+
+	public double getZeroToSixty() {
 		return zeroToSixty;
 	}
 
-	public void setZeroToSixty(boolean zeroToSixty) {
+	public void setZeroToSixty(double zeroToSixty) {
 		this.zeroToSixty = zeroToSixty;
 	}
 
@@ -117,9 +142,8 @@ public class Car {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(carId, color, make, mpg, topspeed, year, zeroToSixty);
+		return Objects.hash(carId, color, horsePower, make, model, mpg, topspeed, year, zeroToSixty);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -130,20 +154,12 @@ public class Car {
 		if (getClass() != obj.getClass())
 			return false;
 		Car other = (Car) obj;
-		return carId == other.carId && Objects.equals(color, other.color) && Objects.equals(make, other.make)
+		return carId == other.carId && Objects.equals(color, other.color) && horsePower == other.horsePower
+				&& Objects.equals(make, other.make) && Objects.equals(model, other.model)
 				&& Double.doubleToLongBits(mpg) == Double.doubleToLongBits(other.mpg)
 				&& Double.doubleToLongBits(topspeed) == Double.doubleToLongBits(other.topspeed)
 				&& Double.doubleToLongBits(year) == Double.doubleToLongBits(other.year)
-				&& zeroToSixty == other.zeroToSixty;
+				&& Double.doubleToLongBits(zeroToSixty) == Double.doubleToLongBits(other.zeroToSixty);
 	}
-
-
-	@Override
-	public String toString() {
-		return "Car [carId=" + carId + ", make=" + make + ", color=" + color + ", zeroToSixty=" + zeroToSixty
-				+ ", topspeed=" + topspeed + ", year=" + year + ", mpg=" + mpg + "]";
-	}
-	
-	
 	
 }
