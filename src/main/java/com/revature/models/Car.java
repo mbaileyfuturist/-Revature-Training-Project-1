@@ -30,8 +30,8 @@ public class Car {
 	@Column(name = "acceleration")
 	private double zeroToSixty;
 	
-	@Column(name = "top_spedd")
-	private double topspeed; 
+	@Column(name = "top_speed")
+	private double topSpeed; 
 
 	@Column(name = "mpg")
 	private double mpg; 
@@ -41,7 +41,7 @@ public class Car {
 	}
 
 	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
-			double topspeed, double mpg) {
+			double topSpeed, double mpg) {
 		super();
 		this.carId = carId;
 		this.make = make;
@@ -50,12 +50,12 @@ public class Car {
 		this.color = color;
 		this.horsePower = horsePower;
 		this.zeroToSixty = zeroToSixty;
-		this.topspeed = topspeed;
+		this.topSpeed = topSpeed;
 		this.mpg = mpg;
 	}
 
 	public Car(int carId, String make, String model, int year, String color, int horsePower, double zeroToSixty,
-			double topspeed, double mpg) {
+			double topSpeed, double mpg) {
 		super();
 		this.carId = carId;
 		this.make = make;
@@ -64,7 +64,7 @@ public class Car {
 		this.color = color;
 		this.horsePower = horsePower;
 		this.zeroToSixty = zeroToSixty;
-		this.topspeed = topspeed;
+		this.topSpeed = topSpeed;
 		this.mpg = mpg;
 	}
 
@@ -125,11 +125,11 @@ public class Car {
 	}
 
 	public double getTopspeed() {
-		return topspeed;
+		return topSpeed;
 	}
 
 	public void setTopspeed(double topspeed) {
-		this.topspeed = topspeed;
+		this.topSpeed = topspeed;
 	}
 
 	public double getMpg() {
@@ -142,7 +142,7 @@ public class Car {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(carId, color, horsePower, make, model, mpg, topspeed, year, zeroToSixty);
+		return Objects.hash(carId, color, horsePower, make, model, mpg, topSpeed, year, zeroToSixty);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class Car {
 		return carId == other.carId && Objects.equals(color, other.color) && horsePower == other.horsePower
 				&& Objects.equals(make, other.make) && Objects.equals(model, other.model)
 				&& Double.doubleToLongBits(mpg) == Double.doubleToLongBits(other.mpg)
-				&& Double.doubleToLongBits(topspeed) == Double.doubleToLongBits(other.topspeed)
+				&& Double.doubleToLongBits(topSpeed) == Double.doubleToLongBits(other.topSpeed)
 				&& Double.doubleToLongBits(year) == Double.doubleToLongBits(other.year)
 				&& Double.doubleToLongBits(zeroToSixty) == Double.doubleToLongBits(other.zeroToSixty);
 	}

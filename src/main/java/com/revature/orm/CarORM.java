@@ -147,8 +147,8 @@ public class CarORM {
 			preparedStatement.setString(3, car.getColor());
 			preparedStatement.setDouble(4, car.getMpg());
 			preparedStatement.setInt(5, car.getYear());
-			preparedStatement.setString(6, car.getModel());
-			preparedStatement.setDouble(7, car.getTopspeed());
+			preparedStatement.setDouble(6, car.getTopspeed());
+			preparedStatement.setString(7, car.getModel());
 			preparedStatement.setString(8, car.getMake());
 			
 			ResultSet resultSet;
@@ -222,8 +222,14 @@ public class CarORM {
 			
 			preparedStatement.setString(1, car.getMake());
 			preparedStatement.setString(2, car.getModel());
-			preparedStatement.setString(3, car.getColor());
+			preparedStatement.setInt(3, car.getYear());
+			preparedStatement.setString(4, car.getColor());
+			preparedStatement.setInt(5, car.getHorsePower());
+			preparedStatement.setDouble(6, car.getZeroToSixty());
+			preparedStatement.setDouble(7, car.getTopspeed());
+			preparedStatement.setDouble(8, car.getMpg());
 
+			preparedStatement.executeUpdate();
 
 			System.out.println(updateStatement.toString());
 			
