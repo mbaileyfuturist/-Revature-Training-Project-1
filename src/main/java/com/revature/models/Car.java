@@ -43,7 +43,6 @@ public class Car {
 	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
 			double topSpeed, double mpg) {
 		super();
-		this.carId = carId;
 		this.make = make;
 		this.model = model;
 		this.year = year;
