@@ -16,7 +16,7 @@ import com.revature.utils.ColumnField;
 import com.revature.utils.Configuration;
 import com.revature.utils.DefineTable;
 
-public class CarORM {
+public class ORM {
 	
 	private Configuration config = new Configuration("postgres", "Mikespasword123$");
 	
@@ -51,8 +51,9 @@ public class CarORM {
 			if(columnField.getColumnName().equals("id")) {
 				createTable.append( "(id SERIAL NOT NULL PRIMARY KEY");
 			}
-			
-			if(columnField.getType().toString().equals("class java.lang.String")) {
+						
+			if(columnField.getType().toString().equals("class java.lang.String") || columnField.getType().toString().equals("class com.revature.models.CarType") ||
+					columnField.getType().toString().equals("class com.revature.models.TransmissionType")) {
 				typeAndRestrictions = "VARCHAR(50) NOT NULL";
 			}else if(columnField.getType().toString().equals("int") && !columnField.getColumnName().equals("id")) {
 				typeAndRestrictions = "INTEGER NOT NULL";
@@ -90,8 +91,8 @@ public class CarORM {
 	}
 	
 	
-	public int save(Car car){
-		
+	public int saveCar(Car car){
+				
 		//If the table doesn't exist then create a new one and return a map
 		//That maps elements from their column name to their data type.
 		HashMap<String, Class<?>> fieldToType = createIfNotExist(car);
@@ -136,21 +137,20 @@ public class CarORM {
 		}
 		
 		sqlStatementBuilder.append(") RETURNING id");
-		
-		System.out.println(sqlStatementBuilder.toString());
-						
+							
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlStatementBuilder.toString());
-			
-			preparedStatement.setDouble(1, car.getZeroToSixty());
-			preparedStatement.setDouble(2, car.getHorsePower());
-			preparedStatement.setString(3, car.getColor());
-			preparedStatement.setDouble(4, car.getMpg());
-			preparedStatement.setInt(5, car.getYear());
-			preparedStatement.setDouble(6, car.getTopspeed());
-			preparedStatement.setString(7, car.getModel());
-			preparedStatement.setString(8, car.getMake());
-			
+				preparedStatement.setDouble(1, car.getZeroToSixty());
+				preparedStatement.setDouble(2, car.getHorsePower());
+				preparedStatement.setString(3, car.getTransmission().toString());
+				preparedStatement.setString(4, car.getColor());
+				preparedStatement.setDouble(5, car.getMpg());
+				preparedStatement.setInt(6, car.getYear());
+				preparedStatement.setDouble(7, car.getTopspeed());
+				preparedStatement.setString(8, car.getModel());
+				preparedStatement.setString(9, car.getMake());
+				preparedStatement.setString(10, car.getCarType().toString());
+				
 			ResultSet resultSet;
 			
 			if ((resultSet = preparedStatement.executeQuery()) != null) {
@@ -166,7 +166,7 @@ public class CarORM {
 		return -1;
 		
 	}
-
+	
 	public boolean remove(Car car) {
 		
 		boolean deleted = false;
@@ -228,6 +228,8 @@ public class CarORM {
 			preparedStatement.setDouble(6, car.getZeroToSixty());
 			preparedStatement.setDouble(7, car.getTopspeed());
 			preparedStatement.setDouble(8, car.getMpg());
+			preparedStatement.setString(9, car.getCarType().toString());
+			preparedStatement.setString(10, car.getTransmission().toString());
 
 			preparedStatement.executeUpdate();
 

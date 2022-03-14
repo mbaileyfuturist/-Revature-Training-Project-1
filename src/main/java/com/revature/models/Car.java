@@ -35,15 +35,20 @@ public class Car {
 
 	@Column(name = "mpg")
 	private double mpg; 
-		
+	
+	@Column(name = "car_type")
+	private CarType carType;
+	
+	@Column(name = "transmission")
+	private TransmissionType transmission;
+			
 	public Car() {
 		
 	}
 
 	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
-			double topSpeed, double mpg) {
+			double topSpeed, double mpg, CarType carType, TransmissionType transmission) {
 		super();
-		this.carId = carId;
 		this.make = make;
 		this.model = model;
 		this.year = year;
@@ -52,10 +57,12 @@ public class Car {
 		this.zeroToSixty = zeroToSixty;
 		this.topSpeed = topSpeed;
 		this.mpg = mpg;
+		this.carType = carType;
+		this.transmission = transmission;
 	}
 
 	public Car(int carId, String make, String model, int year, String color, int horsePower, double zeroToSixty,
-			double topSpeed, double mpg) {
+			double topSpeed, double mpg, CarType carType, TransmissionType transmission) {
 		super();
 		this.carId = carId;
 		this.make = make;
@@ -66,6 +73,8 @@ public class Car {
 		this.zeroToSixty = zeroToSixty;
 		this.topSpeed = topSpeed;
 		this.mpg = mpg;
+		this.carType = carType;
+		this.transmission = transmission;
 	}
 
 	public int getCarId() {
@@ -138,6 +147,30 @@ public class Car {
 
 	public void setMpg(double mpg) {
 		this.mpg = mpg;
+	}
+	
+	public double getTopSpeed() {
+		return topSpeed;
+	}
+
+	public void setTopSpeed(double topSpeed) {
+		this.topSpeed = topSpeed;
+	}
+	
+	public CarType getCarType() {
+		return carType;
+	}
+
+	public void setCarType(CarType carType) {
+		this.carType = carType;
+	}
+
+	public TransmissionType getTransmission() {
+		return transmission;
+	}
+
+	public void setTransmission(TransmissionType transmission) {
+		this.transmission = transmission;
 	}
 
 	@Override

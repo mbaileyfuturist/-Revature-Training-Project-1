@@ -1,16 +1,16 @@
 package com.revature.dao;
 
 import com.revature.models.Car;
-import com.revature.orm.CarORM;
+import com.revature.orm.ORM;
 
 public class CarDao {
 	
-	private CarORM orm = new CarORM();
+	private ORM orm = new ORM();
 	
 	public int insert(Car car) {
 		
 		
-		int primaryKey = orm.save(car);
+		int primaryKey = orm.saveCar(car);
 		
 		return primaryKey;
 	}
