@@ -8,6 +8,7 @@ import com.revature.annotations.Table;
 
 @Table(name = "car_details")
 public class Car {
+	
 
 	@Column(name="id")
 	private int carId; 
@@ -46,6 +47,18 @@ public class Car {
 	private int modelId;
 			
 	public Car() {
+		
+	}
+	
+	public enum CarType {
+
+		SUV, CONVERTIBLE, COUPE, SEDAN, HATCHBACK, MINIVAN; 
+
+	}
+	
+	public enum TransmissionType {
+
+		AUTOMATIC, MANUAL; 
 		
 	}
 

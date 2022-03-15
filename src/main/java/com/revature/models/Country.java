@@ -4,9 +4,10 @@ import java.util.Objects;
 
 import com.revature.annotations.Column;
 import com.revature.annotations.Table;
+import com.revature.models.Car.CarType;
 
 // Fetches some data about the country where the car was produced 
-@Table(name="Countries")
+@Table(name = "Countries")
 public class Country {
 	
 	@Column(name="id")
@@ -14,20 +15,29 @@ public class Country {
 	
 	@Column(name="country_name")
 	private String country;
-	
-	@Column(name="number_of_manufacturers")
+
+	@Column(name = "number_of_manufacturers")
 	private int numManufacturers;
 	
 	@Column(name="total_exports_anual")
 	private int totalExportsAnnual;
-	
+
+	@Column(name = "countries")
+	private Countries countries;
+
+	public enum Countries {
+
+		USA, JAPAN, GERMANY, INDIA, MEXICO, UK;
+
+	}
+
 	public Country(String country, int numManufacturers, int totalExportsAnnual) {
 		super();
 		this.country = country;
 		this.numManufacturers = numManufacturers;
 		this.totalExportsAnnual = totalExportsAnnual;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}
@@ -52,6 +62,14 @@ public class Country {
 		this.totalExportsAnnual = totalAnnual;
 	}
 
+	public Countries getCountries() {
+		return countries;
+	}
+
+	public void setCountries(Countries countries) {
+		this.countries = countries;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(country, numManufacturers, totalExportsAnnual);
@@ -71,17 +89,3 @@ public class Country {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

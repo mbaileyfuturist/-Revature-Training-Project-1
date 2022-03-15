@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import com.revature.dao.Dao;
 import com.revature.models.Car;
-import com.revature.models.CarType;
+import com.revature.models.Car.CarType;
+import com.revature.models.Car.TransmissionType;
 import com.revature.models.Country;
 import com.revature.models.Manufacturer;
 import com.revature.models.Model;
-import com.revature.models.TransmissionType;
 
 public class Driver {
 
