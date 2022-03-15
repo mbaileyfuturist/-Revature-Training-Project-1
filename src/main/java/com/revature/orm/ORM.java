@@ -14,6 +14,7 @@ import java.util.Map;
 
 import com.revature.models.Car;
 import com.revature.models.Country;
+import com.revature.models.Generic;
 import com.revature.models.Manufacturer;
 import com.revature.utils.ColumnField;
 import com.revature.utils.Configuration;
@@ -27,14 +28,16 @@ public class ORM {
 	private Connection connection = config.connectToDataBase();
 	
 	//Make this generic so that it can create the following tables Countries, Manufacturers, Cars.
-	public HashMap<String, Class<?>>  createIfNotExist(Object car) {
+	public HashMap<String, Class<?>>  createIfNotExist(Object object) {
+		
+		Generic<Object> genericObject = new Generic<Object>(object);
 		
 		//Get the singleton class of our object.
-		Class carClass = Car.class;		
+		Class objectClass = genericObject.getObject().getClass();		
 		
 		//(Figure out how to get the custom annotation name.)
 		//Define our table based on the @Table annotation in the class.
-		DefineTable table = new DefineTable(carClass);
+		DefineTable table = new DefineTable(objectClass);
 		
 		//Get the fields of the class.
 		Field[] fields = table.getFields();
@@ -58,17 +61,36 @@ public class ORM {
 						
 			if(columnField.getType().toString().equals("class java.lang.String") || columnField.getType().toString().equals("class com.revature.models.CarType") ||
 					columnField.getType().toString().equals("class com.revature.models.TransmissionType")) {
+				
 				typeAndRestrictions = "VARCHAR(50) NOT NULL";
-			}else if(columnField.getType().toString().equals("int") && !columnField.getColumnName().equals("id")) {
+				
+			}else if(columnField.getType().toString().equals("int") && !columnField.getColumnName().equals("id") && !columnField.getColumnName().equals("country_id")
+					&& !columnField.getColumnName().equals("manufacturer_id") && !columnField.getColumnName().equals("model_id")) {
+				
 				typeAndRestrictions = "INTEGER NOT NULL";
+				
 			}else if(columnField.getType().toString().equals("double")) {
+				
 				typeAndRestrictions = "NUMERIC(5,2) NOT NULL";
+				
+			}
+			
+			if(columnField.getColumnName().equals("country_id")) {
+				typeAndRestrictions = "INTEGER REFERENCES Country(id)";
+			}
+			
+			if(columnField.getColumnName().equals("manufacturer_id")) {
+				typeAndRestrictions = "INTEGER REFERENCES manufacturer(id)";
+			}
+			
+			if(columnField.getColumnName().equals("model_id")) {
+				typeAndRestrictions = "INTEGER REFERENCES model(id)";
 			}
 			
 			if(!columnField.getColumnName().equals("id")) {
 				createTable.append(columnField.getColumnName() + " " + typeAndRestrictions);
 			}
-							
+						
 			//If we have more columns to iterate then append a comma, otherwise don't.
 			if(index < fields.length - 1) {
 				createTable.append(", \n");
@@ -88,7 +110,7 @@ public class ORM {
 		}
 		
 		
-		//System.out.println(columnDecleration);
+		System.out.println(createTable + "\n");
 		
 		return fieldToType;
 		
@@ -96,26 +118,27 @@ public class ORM {
 	
 	public void saveCountriesAndManufacturers(ArrayList<Country> countries, ArrayList<Manufacturer> manufacturers) {
 		
-		//Create the tables based on the design in the document.
-		HashMap<String, Class<?>> fieldToTypeCountries = createIfNotExist(countries.get(0));
-		HashMap<String, Class<?>> fieldToTypeModels = createIfNotExist(manufacturers.get(0));
-		
-		//Create insert statements to insert each arraylist into their corresponding parameters.
-		
-		
+		for(Country country: countries) {
+			save(country);
+		}
+		for(Manufacturer manufacturer: manufacturers) {
+			save(manufacturer);
+		}
 	}
 	
-	public int saveCar(Car car){
+	public int save(Object object){
 				
 		//If the table doesn't exist then create a new one and return a map
 		//That maps elements from their column name to their data type.
-		HashMap<String, Class<?>> fieldToType = createIfNotExist(car);
+		HashMap<String, Class<?>> fieldToType = createIfNotExist(object);
 
+		Generic<Object> genericObject = new Generic<Object>(object);
+		
 		//Create a singleton class of the Car object.
-		Class carClass = car.getClass();
+		Class objectClass = genericObject.getObject().getClass();
 		
 		//(Figure out how to get the custom annotation name.)
-		DefineTable table = new DefineTable(carClass);
+		DefineTable table = new DefineTable(objectClass);
 
 		//Create a prepared statement using StringBuilder.
 		StringBuilder sqlStatementBuilder = new StringBuilder("INSERT INTO " + table.getSimpleName() + " ( ");
@@ -142,10 +165,10 @@ public class ORM {
 		sqlStatementBuilder.append(") VALUES (");
 		
 		
-		for(int index = 0; index < carClass.getDeclaredFields().length-1; index++) {
+		for(int index = 0; index < objectClass.getDeclaredFields().length-1; index++) {
 			sqlStatementBuilder.append("?");
 			
-			if(index < carClass.getDeclaredFields().length - 2) {
+			if(index < objectClass.getDeclaredFields().length - 2) {
 				sqlStatementBuilder.append(", ");
 			}
 		}
@@ -153,18 +176,33 @@ public class ORM {
 		sqlStatementBuilder.append(") RETURNING id");
 							
 		try {
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(sqlStatementBuilder.toString());
-				preparedStatement.setDouble(1, car.getZeroToSixty());
-				preparedStatement.setDouble(2, car.getHorsePower());
-				preparedStatement.setString(3, car.getTransmission().toString());
-				preparedStatement.setString(4, car.getColor());
-				preparedStatement.setDouble(5, car.getMpg());
-				preparedStatement.setInt(6, car.getYear());
-				preparedStatement.setDouble(7, car.getTopspeed());
-				preparedStatement.setString(8, car.getModel());
-				preparedStatement.setString(9, car.getMake());
-				preparedStatement.setString(10, car.getCarType().toString());
-				
+
+			if(table.getSimpleName().equals("Country")) {
+				preparedStatement.setString(1, ((Country) genericObject.getObject()).getCountry());
+				preparedStatement.setInt(2, ((Country) genericObject.getObject()).getNumManufacturers());
+				preparedStatement.setInt(3, ((Country) genericObject.getObject()).getTotalAnnual());
+			}
+			else if(table.getSimpleName().equals("Manufacturer")) {
+				preparedStatement.setString(1, ((Manufacturer) genericObject.getObject()).getName());
+				preparedStatement.setString(2, ((Manufacturer) genericObject.getObject()).getFullName());
+				preparedStatement.setInt(3, ((Manufacturer) genericObject.getObject()).getCountryId());
+			}
+			else if(table.getSimpleName().equals("Car")){
+				preparedStatement.setDouble(1, ((Car) genericObject.getObject()).getZeroToSixty());
+				preparedStatement.setDouble(2, ((Car) genericObject.getObject()).getHorsePower());
+				preparedStatement.setString(3, ((Car) genericObject.getObject()).getTransmission().toString());
+				preparedStatement.setString(4, ((Car) genericObject.getObject()).getColor());
+				preparedStatement.setDouble(5, ((Car) genericObject.getObject()).getMpg());
+				preparedStatement.setInt(6, ((Car) genericObject.getObject()).getYear());
+				preparedStatement.setDouble(7, ((Car) genericObject.getObject()).getTopspeed());
+				preparedStatement.setString(8, ((Car) genericObject.getObject()).getModel());
+				preparedStatement.setString(9, ((Car) genericObject.getObject()).getMake());
+				preparedStatement.setString(10, ((Car) genericObject.getObject()).getCarType().toString());
+				preparedStatement.setInt(11, ((Car) genericObject.getObject()).getModelId());
+			}
+			
 			ResultSet resultSet;
 			
 			if ((resultSet = preparedStatement.executeQuery()) != null) {

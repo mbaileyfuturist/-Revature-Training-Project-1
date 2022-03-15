@@ -17,9 +17,9 @@ public class Dao {
 		orm.saveCountriesAndManufacturers(countries, manufacturers);
 	}
 	
-	public int insert(Car car, String countryName, Model model) {
+	public int insert(Car car, Model model) {
 		
-		int primaryKey = orm.saveCar(car);
+		int primaryKey = orm.save(car);
 		
 		return primaryKey;
 	}

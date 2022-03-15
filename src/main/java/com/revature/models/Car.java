@@ -41,13 +41,16 @@ public class Car {
 	
 	@Column(name = "transmission")
 	private TransmissionType transmission;
+	
+	@Column(name="model_id")
+	private int modelId;
 			
 	public Car() {
 		
 	}
 
 	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
-			double topSpeed, double mpg, CarType carType, TransmissionType transmission) {
+			double topSpeed, double mpg, CarType carType, TransmissionType transmission, int modelId) {
 		super();
 		this.make = make;
 		this.model = model;
@@ -59,6 +62,7 @@ public class Car {
 		this.mpg = mpg;
 		this.carType = carType;
 		this.transmission = transmission;
+		this.modelId = modelId;
 	}
 
 	public Car(int carId, String make, String model, int year, String color, int horsePower, double zeroToSixty,
@@ -171,6 +175,14 @@ public class Car {
 
 	public void setTransmission(TransmissionType transmission) {
 		this.transmission = transmission;
+	}
+	
+	public int getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(int modelId) {
+		this.modelId = modelId;
 	}
 
 	@Override

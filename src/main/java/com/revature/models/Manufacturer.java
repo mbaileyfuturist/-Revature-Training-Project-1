@@ -17,10 +17,14 @@ public class Manufacturer {
 	@Column(name="full_name")
 	private String full_name;
 	
-	public Manufacturer(String name, String full_name) {
+	@Column(name="country_id")
+	private int countryId;
+	
+	public Manufacturer(String name, String full_name, int countryId) {
 		super();
 		this.name = name;
 		this.full_name = full_name;
+		this.countryId = countryId;
 	}
 	
 	public Manufacturer(int id, String name, String full_name) {
@@ -46,12 +50,21 @@ public class Manufacturer {
 		this.name = name;
 	}
 
-	public String getFull_name() {
+	public String getFullName() {
 		return full_name;
 	}
 
-	public void setFull_name(String full_name) {
+	public void setFullName(String full_name) {
 		this.full_name = full_name;
+	}
+	
+	
+	public int getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
 	@Override

@@ -9,22 +9,26 @@ import com.revature.annotations.Table;
 public class Model {
 	
 	@Column(name="id")
-	int id;
+	private int id;
 
 	@Column(name="model_name")
-	String modelName;
+	private String modelName;
 
 	@Column(name="year_founded")
-	int yearFounded;
+	private int yearFounded;
 
 	@Column(name="country")
-	String country;
+	private String country;
 	
-	public Model(String modelName, int yearFounded, String country) {
+	@Column(name="maker_id")
+	private int makerId;
+	
+	public Model(String modelName, int yearFounded, String country, int makerId) {
 		super();
 		this.modelName = modelName;
 		this.yearFounded = yearFounded;
 		this.country = country;
+		this.makerId = makerId;
 	}
 	
 	public String getmodelName() {
@@ -51,6 +55,22 @@ public class Model {
 		this.country = country;
 	}	
 	
+	public String getModelName() {
+		return modelName;
+	}
+
+	public void setModelName(String modelName) {
+		this.modelName = modelName;
+	}
+
+	public int getMakerId() {
+		return makerId;
+	}
+
+	public void setMakerId(int makerId) {
+		this.makerId = makerId;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(modelName, country, yearFounded);

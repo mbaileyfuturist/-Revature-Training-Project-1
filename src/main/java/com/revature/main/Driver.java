@@ -29,57 +29,66 @@ public class Driver {
 		countries.add(new Country("Japan", 10, 15000));
 		countries.add(new Country("Britain", 8, 50000));
 		
-		ArrayList<Manufacturer> Manufacturers = new ArrayList<>();
+		ArrayList<Manufacturer> manufacturers = new ArrayList<>();
 		//USA
-		Manufacturers.add(new Manufacturer("Dodge", "Dodge"));
-		Manufacturers.add(new Manufacturer("Ford", "Ford"));
-		Manufacturers.add(new Manufacturer("Chevy", "Chevrolet"));
-		Manufacturers.add(new Manufacturer("GM", "General Moters"));
-		Manufacturers.add(new Manufacturer("BMW", "Bayerische Motoren Werke AG"));
+		manufacturers.add(new Manufacturer("Dodge", "Dodge", 1));
+		manufacturers.add(new Manufacturer("Ford", "Ford", 1));
+		manufacturers.add(new Manufacturer("Chevy", "Chevrolet", 1));
+		manufacturers.add(new Manufacturer("GM", "General Moters", 1));
+		manufacturers.add(new Manufacturer("BMW", "Bayerische Motoren Werke AG", 1));
 		
 		//Germany
-		Manufacturers.add(new Manufacturer("Mercedes", "Mercedes-Benz"));
-		Manufacturers.add(new Manufacturer("VW", "Volkswagen"));
-		Manufacturers.add(new Manufacturer("Audi", "Audi"));
-		Manufacturers.add(new Manufacturer("Porsche", "Dr.-Ing. h.c. F. Porsche AG"));
+		manufacturers.add(new Manufacturer("Mercedes", "Mercedes-Benz", 2));
+		manufacturers.add(new Manufacturer("VW", "Volkswagen", 2));
+		manufacturers.add(new Manufacturer("Audi", "Audi", 2));
+		manufacturers.add(new Manufacturer("Porsche", "Dr.-Ing. h.c. F. Porsche AG", 2));
 		
 		//Italy
-		Manufacturers.add(new Manufacturer("FIAT", "Fiat Automobiles S.p.A."));
-		Manufacturers.add(new Manufacturer("Lamborghini", "Automobili Lamborghini S.p.A."));
-		Manufacturers.add(new Manufacturer("Alfa Romeo", "Alfa Romeo Automobiles S.p.A."));
-		Manufacturers.add(new Manufacturer("Maserati", "Maserati S.p.A"));
-		Manufacturers.add(new Manufacturer("Ferrari", "Ferrari S.p.A."));
+		manufacturers.add(new Manufacturer("FIAT", "Fiat Automobiles S.p.A.", 3));
+		manufacturers.add(new Manufacturer("Lamborghini", "Automobili Lamborghini S.p.A.", 3));
+		manufacturers.add(new Manufacturer("Alfa Romeo", "Alfa Romeo Automobiles S.p.A.", 3));
+		manufacturers.add(new Manufacturer("Maserati", "Maserati S.p.A", 3));
+		manufacturers.add(new Manufacturer("Ferrari", "Ferrari S.p.A.", 3));
 		
 		//Japan
-		Manufacturers.add(new Manufacturer("ACURA", "Acura"));
-		Manufacturers.add(new Manufacturer("Nissan", "Nissan Motor Corporation"));
-		Manufacturers.add(new Manufacturer("Subaru", "Subaru"));
-		Manufacturers.add(new Manufacturer("Honda", "Honda Motor Company, Ltd."));
-		Manufacturers.add(new Manufacturer("Lexus", "Lexus"));
-		Manufacturers.add(new Manufacturer("Mazda", "Mazda Motor Corporation "));
-		Manufacturers.add(new Manufacturer("Mitsubishi", "Mitsubishi Motors Corporation"));
-		Manufacturers.add(new Manufacturer("Infiniti", "Infiniti"));
-		Manufacturers.add(new Manufacturer("Isuzu", "Isuzu Motors Ltd."));
-		Manufacturers.add(new Manufacturer("Toyota", "Toyota Motor Corporation"));
+		manufacturers.add(new Manufacturer("ACURA", "Acura", 4));
+		manufacturers.add(new Manufacturer("Nissan", "Nissan Motor Corporation", 4));
+		manufacturers.add(new Manufacturer("Subaru", "Subaru", 4));
+		manufacturers.add(new Manufacturer("Honda", "Honda Motor Company, Ltd.", 4));
+		manufacturers.add(new Manufacturer("Lexus", "Lexus", 4));
+		manufacturers.add(new Manufacturer("Mazda", "Mazda Motor Corporation ", 4));
+		manufacturers.add(new Manufacturer("Mitsubishi", "Mitsubishi Motors Corporation", 4));
+		manufacturers.add(new Manufacturer("Infiniti", "Infiniti", 4));
+		manufacturers.add(new Manufacturer("Isuzu", "Isuzu Motors Ltd.", 4));
+		manufacturers.add(new Manufacturer("Toyota", "Toyota Motor Corporation", 4));
 		
 		//UK
-		Manufacturers.add(new Manufacturer("McLaren", "McLaren Automotive"));
-		Manufacturers.add(new Manufacturer("Bentley", "Bentley Motors Limited"));
-		Manufacturers.add(new Manufacturer("Jaguar", "Jaguar"));
-		Manufacturers.add(new Manufacturer("Aston", "Aston Martin Lagonda"));
-		Manufacturers.add(new Manufacturer("Rolls-Royce", "Rolls-Royce Motor Cars Limited"));
-		Manufacturers.add(new Manufacturer("Mini", "Mini"));
-		Manufacturers.add(new Manufacturer("Land Rover", "Land Rover"));
-		Manufacturers.add(new Manufacturer("Lotus", "Lotus Cars Limited"));
+		manufacturers.add(new Manufacturer("McLaren", "McLaren Automotive", 5));
+		manufacturers.add(new Manufacturer("Bentley", "Bentley Motors Limited", 5));
+		manufacturers.add(new Manufacturer("Jaguar", "Jaguar", 5));
+		manufacturers.add(new Manufacturer("Aston", "Aston Martin Lagonda", 5));
+		manufacturers.add(new Manufacturer("Rolls-Royce", "Rolls-Royce Motor Cars Limited", 5));
+		manufacturers.add(new Manufacturer("Mini", "Mini", 5));
+		manufacturers.add(new Manufacturer("Land Rover", "Land Rover", 5));
+		manufacturers.add(new Manufacturer("Lotus", "Lotus Cars Limited", 5));
 		
-		dao.initializeParentTables(countries, Manufacturers);
+		dao.initializeParentTables(countries, manufacturers);
+		
+		int manufacturerId = -1;
+		for(Manufacturer manufacturer: manufacturers) {
+			if(manufacturer.getName().equals("Toyota")){
+				manufacturerId = manufacturers.indexOf(manufacturer);
+			}
+		}
+		Model model = new Model("Supra", 2021, "Japan", manufacturerId);
 		
 		//Create a car object.
-		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155.0, 32, carType, transmission);
-		Car viper = new Car("Dodge", "Viper", 2021, "Blue", 645, 3.0,  206.0, 19, carType, transmission);
-				
+		//CREATE A DAO FOR THE MODEL CLASS IN ORDER TO GET THE PRIMARY KEY TO INSERT IT INTO THE CAR OBJECT.
+		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155.0, 32, carType, transmission, 1);
+		Car viper = new Car("Dodge", "Viper", 2021, "Blue", 645, 3.0,  206.0, 19, carType, transmission, 2);
+		
 		//insert it using CarDao.
-		//int pk = dao.insert(viper);
+		int pk = dao.insert(viper, model);
 		
 		//boolean deleted = dao.delete(supra);
 		

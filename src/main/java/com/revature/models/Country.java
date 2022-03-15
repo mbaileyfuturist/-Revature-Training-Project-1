@@ -9,20 +9,23 @@ import com.revature.annotations.Table;
 @Table(name="Countries")
 public class Country {
 	
-	@Column(name="country")
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="country_name")
 	private String country;
 	
 	@Column(name="number_of_manufacturers")
 	private int numManufacturers;
 	
-	@Column(name="total_anual")
-	private long totalAnnual;
+	@Column(name="total_exports_anual")
+	private int totalExportsAnnual;
 	
-	public Country(String country, int numManufacturers, int totalAnnual) {
+	public Country(String country, int numManufacturers, int totalExportsAnnual) {
 		super();
 		this.country = country;
 		this.numManufacturers = numManufacturers;
-		this.totalAnnual = totalAnnual;
+		this.totalExportsAnnual = totalExportsAnnual;
 	}
 	
 	public String getCountry() {
@@ -41,17 +44,17 @@ public class Country {
 		this.numManufacturers = numManufacturers;
 	}
 
-	public long getTotalAnnual() {
-		return totalAnnual;
+	public int getTotalAnnual() {
+		return totalExportsAnnual;
 	}
 
 	public void setTotalAnnual(int totalAnnual) {
-		this.totalAnnual = totalAnnual;
+		this.totalExportsAnnual = totalAnnual;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(country, numManufacturers, totalAnnual);
+		return Objects.hash(country, numManufacturers, totalExportsAnnual);
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class Country {
 			return false;
 		Country other = (Country) obj;
 		return Objects.equals(country, other.country) && numManufacturers == other.numManufacturers
-				&& totalAnnual == other.totalAnnual;
+				&& totalExportsAnnual == other.totalExportsAnnual;
 	}
 
 }
