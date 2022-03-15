@@ -1,14 +1,23 @@
 package com.revature.dao;
 
+import java.util.ArrayList;
+
 import com.revature.models.Car;
+import com.revature.models.Country;
+import com.revature.models.Manufacturer;
+import com.revature.models.Model;
 import com.revature.orm.ORM;
 
-public class CarDao {
+public class Dao {
 	
 	private ORM orm = new ORM();
 	
-	public int insert(Car car) {
+	public void initializeParentTables(ArrayList<Country> countries, ArrayList<Manufacturer> manufacturers) {
 		
+		orm.saveCountriesAndManufacturers(countries, manufacturers);
+	}
+	
+	public int insert(Car car, String countryName, Model model) {
 		
 		int primaryKey = orm.saveCar(car);
 		

@@ -7,11 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.revature.models.Car;
+import com.revature.models.Country;
+import com.revature.models.Manufacturer;
 import com.revature.utils.ColumnField;
 import com.revature.utils.Configuration;
 import com.revature.utils.DefineTable;
@@ -23,7 +26,8 @@ public class ORM {
 	//Establish a connection to the database.
 	private Connection connection = config.connectToDataBase();
 	
-	public HashMap<String, Class<?>>  createIfNotExist(Car car) {
+	//Make this generic so that it can create the following tables Countries, Manufacturers, Cars.
+	public HashMap<String, Class<?>>  createIfNotExist(Object car) {
 		
 		//Get the singleton class of our object.
 		Class carClass = Car.class;		
@@ -90,13 +94,23 @@ public class ORM {
 		
 	}
 	
+	public void saveCountriesAndManufacturers(ArrayList<Country> countries, ArrayList<Manufacturer> manufacturers) {
+		
+		//Create the tables based on the design in the document.
+		HashMap<String, Class<?>> fieldToTypeCountries = createIfNotExist(countries.get(0));
+		HashMap<String, Class<?>> fieldToTypeModels = createIfNotExist(manufacturers.get(0));
+		
+		//Create insert statements to insert each arraylist into their corresponding parameters.
+		
+		
+	}
 	
 	public int saveCar(Car car){
 				
 		//If the table doesn't exist then create a new one and return a map
 		//That maps elements from their column name to their data type.
 		HashMap<String, Class<?>> fieldToType = createIfNotExist(car);
-		
+
 		//Create a singleton class of the Car object.
 		Class carClass = car.getClass();
 		
