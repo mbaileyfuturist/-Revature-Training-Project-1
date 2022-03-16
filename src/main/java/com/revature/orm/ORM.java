@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.revature.models.Car;
+import com.revature.models.Car.CarType;
+import com.revature.models.Car.TransmissionType;
 import com.revature.models.Country;
 import com.revature.models.Generic;
 import com.revature.models.Manufacturer;
@@ -326,5 +328,86 @@ public class ORM {
 		
 		return updated;
 	}
+	
+	public Car select(int primaryKey) {
+		
+		Car car = new Car();
+		String selectStatement = "SELECT * FROM Car WHERE id=" + primaryKey + "";
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(selectStatement);
+			
+			if(rs.next()) {
+				
+				CarType carType = CarType.CONVERTIBLE;
+				for(CarType ct: CarType.values()){
+					if(carType.name().equals(rs.getString("car_type"))) {
+						carType = ct;
+					}
+				}
+				
+				TransmissionType transmissionType = TransmissionType.AUTOMATIC;
+				for(TransmissionType tt: TransmissionType.values()){
+					if(carType.name().equals(rs.getString("transmission"))) {
+						transmissionType = tt;
+					}
+				}
+				
+				
+				car.setMake(rs.getString("make"));
+				car.setModel(rs.getString("model"));
+				car.setYear(rs.getString("manufacture_year"));
+				car.setColor(rs.getString("color"));
+				car.setHorsePower(rs.getInt("horse_power"));
+				car.setZeroToSixty(rs.getDouble("acceleration"));
+				car.setTopspeed( rs.getDouble("top_speed"));
+				car.setMpg( rs.getDouble("mpg"));
+				car.setCarType(carType);
+				car.setTransmission(transmissionType);
+				car.setModelId(rs.getInt("model_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return car;
+	}
+	
+	public ArrayList<Car> selectAll(){
+		
+		ArrayList<Car> cars = new ArrayList<Car>();
+		
+		String selectAll = "SELECT * FROM Car";
+		
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(selectAll);
+			
+			while(rs.next()) {
+				
+				CarType carType = CarType.CONVERTIBLE;
+				for(CarType ct: CarType.values()){
+					if(carType.name().equals(rs.getString("car_type"))) {
+						carType = ct;
+					}
+				}
+				
+				TransmissionType transmissionType = TransmissionType.AUTOMATIC;
+				for(TransmissionType tt: TransmissionType.values()){
+					if(carType.name().equals(rs.getString("transmission"))) {
+						transmissionType = tt;
+					}
+				}
+				
+				cars.add(new Car(rs.getString("make"), rs.getString("model"), rs.getString("manufacture_year"), rs.getString("color"), 
+						rs.getInt("horse_power"), rs.getDouble("acceleration"), rs.getDouble("top_speed"), rs.getDouble("mpg"), carType, transmissionType, rs.getInt("model_id")));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return cars;
+	}
+	
 }
 

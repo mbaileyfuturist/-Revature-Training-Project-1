@@ -199,6 +199,13 @@ public class Car {
 	}
 
 	@Override
+	public String toString() {
+		return "Car [carId=" + carId + ", make=" + make + ", model=" + model + ", year=" + year + ", color=" + color
+				+ ", horsePower=" + horsePower + ", zeroToSixty=" + zeroToSixty + ", topSpeed=" + topSpeed + ", mpg="
+				+ mpg + ", carType=" + carType + ", transmission=" + transmission + ", modelId=" + modelId + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(carId, carType, color, horsePower, make, model, modelId, mpg, topSpeed, transmission, year,
 				zeroToSixty);

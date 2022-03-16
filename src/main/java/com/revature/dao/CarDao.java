@@ -41,7 +41,18 @@ public class CarDao {
 	}
 	
 	//Select Car by primary.
+	public Car selectCar(int primaryKey) {
+		
+		Car car = orm.select(primaryKey);
+		
+		return car;
+	}
 	
-	//Select All method.
-
+//	//Select All method.
+	public ArrayList<Car> SelectAll() {
+		
+		ArrayList<Car> cars = orm.selectAll();
+		
+		return cars;
+	}
 }

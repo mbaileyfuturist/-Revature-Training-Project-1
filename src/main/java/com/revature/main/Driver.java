@@ -99,9 +99,17 @@ public class Driver {
 		int choice = scanner.nextInt();
 		
 		if(choice == 1) {	
-			modelDao.update(model, modelPrimaryKey);
-			carDao.update(viper, carPrimaryKey);
+//			modelDao.update(model, modelPrimaryKey);
+//			carDao.update(viper, carPrimaryKey);
+			
+		  //carDao.delete(carPrimaryKey);
+			
+			//Car car = carDao.selectCar(2);
+			
+			for(Car car: carDao.SelectAll()) {
+				System.out.println(car.toString());
 
+			}
 		}
 				
 	}
