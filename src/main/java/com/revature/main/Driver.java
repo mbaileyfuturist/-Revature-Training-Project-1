@@ -2,7 +2,8 @@ package com.revature.main;
 
 import java.util.ArrayList;
 
-import com.revature.dao.Dao;
+import com.revature.dao.CarDao;
+import com.revature.dao.ModelDao;
 import com.revature.models.Car;
 import com.revature.models.Car.CarType;
 import com.revature.models.Car.TransmissionType;
@@ -14,7 +15,9 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-		Dao dao = new Dao();
+		CarDao carDao = new CarDao();
+		ModelDao modelDao = new ModelDao();
+
 		CarType carType = CarType.CONVERTIBLE;
 		TransmissionType transmission = TransmissionType.AUTOMATIC;
 		
@@ -72,23 +75,23 @@ public class Driver {
 		manufacturers.add(new Manufacturer("Land Rover", "Land Rover", 5));
 		manufacturers.add(new Manufacturer("Lotus", "Lotus Cars Limited", 5));
 		
-		dao.initializeParentTables(countries, manufacturers);
+		carDao.initializeParentTables(countries, manufacturers);
 		
-		int manufacturerId = -1;
+		int manufacturerId = 0;
 		for(Manufacturer manufacturer: manufacturers) {
 			if(manufacturer.getName().equals("Toyota")){
-				manufacturerId = manufacturers.indexOf(manufacturer);
+				manufacturerId = manufacturers.indexOf(manufacturer) + 1;
 			}
 		}
-		Model model = new Model("Supra", 2021, "Japan", manufacturerId);
-		
+		Model model = new Model("Supra", "2021", "Japan", manufacturerId);
+		int modelPrimaryKey = modelDao.insert(model);
+
 		//Create a car object.
 		//CREATE A DAO FOR THE MODEL CLASS IN ORDER TO GET THE PRIMARY KEY TO INSERT IT INTO THE CAR OBJECT.
-		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155.0, 32, carType, transmission, 1);
-		Car viper = new Car("Dodge", "Viper", 2021, "Blue", 645, 3.0,  206.0, 19, carType, transmission, 2);
+		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155.0, 32, carType, transmission, modelPrimaryKey);
 		
 		//insert it using CarDao.
-		int pk = dao.insert(viper, model);
+		int carPrimaryKey = carDao.insert(supra);
 		
 		//boolean deleted = dao.delete(supra);
 		

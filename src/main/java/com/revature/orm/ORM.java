@@ -16,6 +16,7 @@ import com.revature.models.Car;
 import com.revature.models.Country;
 import com.revature.models.Generic;
 import com.revature.models.Manufacturer;
+import com.revature.models.Model;
 import com.revature.utils.ColumnField;
 import com.revature.utils.Configuration;
 import com.revature.utils.DefineTable;
@@ -59,8 +60,9 @@ public class ORM {
 				createTable.append( "(id SERIAL NOT NULL PRIMARY KEY");
 			}
 						
-			if(columnField.getType().toString().equals("class java.lang.String") || columnField.getType().toString().equals("class com.revature.models.CarType") ||
-					columnField.getType().toString().equals("class com.revature.models.TransmissionType")) {
+			System.out.println(columnField.getType());
+			if(columnField.getType().toString().equals("class java.lang.String") || columnField.getType().toString().equals("class com.revature.models.Car$CarType") ||
+					columnField.getType().toString().equals("class com.revature.models.Car$TransmissionType")) {
 				
 				typeAndRestrictions = "VARCHAR(50) NOT NULL";
 				
@@ -155,7 +157,7 @@ public class ORM {
 			if(!mapElement.getKey().equals("id")){
 				sqlStatementBuilder.append(mapElement.getKey());
 				//If there is a next element in the iterator then add a comma.
-				if(hmIterator.hasNext()) {
+				if(hmIterator.hasNext() && !mapElement.getKey().equals("year_founded")) {
 					sqlStatementBuilder.append(", ");
 				}
 			}
@@ -174,6 +176,8 @@ public class ORM {
 		}
 		
 		sqlStatementBuilder.append(") RETURNING id");
+
+		System.out.println(sqlStatementBuilder.toString());
 							
 		try {
 			
@@ -189,6 +193,12 @@ public class ORM {
 				preparedStatement.setString(2, ((Manufacturer) genericObject.getObject()).getFullName());
 				preparedStatement.setInt(3, ((Manufacturer) genericObject.getObject()).getCountryId());
 			}
+			else if(table.getSimpleName().equals("Model")) {
+				preparedStatement.setString(1, ((Model) genericObject.getObject()).getCountry());
+				preparedStatement.setInt(2, ((Model) genericObject.getObject()).getMakerId());
+				preparedStatement.setString(3, ((Model) genericObject.getObject()).getmodelName());
+				preparedStatement.setString(4, ((Model) genericObject.getObject()).getYearFounded());
+			}
 			else if(table.getSimpleName().equals("Car")){
 				preparedStatement.setDouble(1, ((Car) genericObject.getObject()).getZeroToSixty());
 				preparedStatement.setDouble(2, ((Car) genericObject.getObject()).getHorsePower());
@@ -198,9 +208,9 @@ public class ORM {
 				preparedStatement.setInt(6, ((Car) genericObject.getObject()).getYear());
 				preparedStatement.setDouble(7, ((Car) genericObject.getObject()).getTopspeed());
 				preparedStatement.setString(8, ((Car) genericObject.getObject()).getModel());
-				preparedStatement.setString(9, ((Car) genericObject.getObject()).getMake());
-				preparedStatement.setString(10, ((Car) genericObject.getObject()).getCarType().toString());
-				preparedStatement.setInt(11, ((Car) genericObject.getObject()).getModelId());
+				preparedStatement.setInt(9, ((Car) genericObject.getObject()).getModelId());
+				preparedStatement.setString(10, ((Car) genericObject.getObject()).getMake());
+				preparedStatement.setString(11, ((Car) genericObject.getObject()).getCarType().toString());
 			}
 			
 			ResultSet resultSet;
@@ -219,16 +229,23 @@ public class ORM {
 		
 	}
 	
-	public boolean remove(Car car) {
+	public boolean remove(Object object) {
 		
 		boolean deleted = false;
 		
-		Class carClass = car.getClass();
+		Generic<Object> genericObject = new Generic<Object>(object);
+		
+		Class objectClass = object.getClass();
 		
 		try {
 			Statement statement = connection.createStatement();
-						
-			String deleteStatement = "DELETE FROM " + carClass.getSimpleName() + " WHERE model='" + car.getModel() + "'";
+			
+			String deleteStatement = "";
+			if(objectClass.getSimpleName().equals("Car")) {
+				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE model='" + ((Car) genericObject.getObject()).getModel() + "'";
+			}else if(objectClass.getSimpleName().equals("Model")){
+				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE model_name='" + ((Model) genericObject.getObject()).getModelName() + "'";
+			}
 			
 			statement.execute(deleteStatement);
 			

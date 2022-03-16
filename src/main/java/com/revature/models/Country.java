@@ -22,9 +22,6 @@ public class Country {
 	@Column(name="total_exports_anual")
 	private int totalExportsAnnual;
 
-	@Column(name = "countries")
-	private Countries countries;
-
 	public enum Countries {
 
 		USA, JAPAN, GERMANY, INDIA, MEXICO, UK;
@@ -60,14 +57,6 @@ public class Country {
 
 	public void setTotalAnnual(int totalAnnual) {
 		this.totalExportsAnnual = totalAnnual;
-	}
-
-	public Countries getCountries() {
-		return countries;
-	}
-
-	public void setCountries(Countries countries) {
-		this.countries = countries;
 	}
 
 	@Override

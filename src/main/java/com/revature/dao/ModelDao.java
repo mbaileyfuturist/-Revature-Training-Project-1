@@ -8,36 +8,28 @@ import com.revature.models.Manufacturer;
 import com.revature.models.Model;
 import com.revature.orm.ORM;
 
-public class Dao {
+public class ModelDao {
 	
-	private ORM orm = new ORM();
+private ORM orm = new ORM();
 	
 	public void initializeParentTables(ArrayList<Country> countries, ArrayList<Manufacturer> manufacturers) {
 		
 		orm.saveCountriesAndManufacturers(countries, manufacturers);
 	}
 	
-	public int insert(Car car, Model model) {
+	public int insert(Model model) {
 		
-		int primaryKey = orm.save(car);
+		int primaryKey = orm.save(model);
 		
 		return primaryKey;
 	}
 	
-	public boolean delete(Car car) {
+	public boolean delete(Model model) {
 		
-		boolean deleted = orm.remove(car);
+		boolean deleted = orm.remove(model);
 		
 		return deleted;
 		
-	}
-	
-	public boolean update(Car car, int primaryKey) {
-		
-		boolean changed = orm.change(car, primaryKey);
-		
-		return changed;
-				
 	}
 
 }

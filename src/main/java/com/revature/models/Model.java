@@ -15,15 +15,15 @@ public class Model {
 	private String modelName;
 
 	@Column(name="year_founded")
-	private int yearFounded;
+	private String yearFounded;
 
 	@Column(name="country")
 	private String country;
 	
-	@Column(name="maker_id")
+	@Column(name="manufacturer_id")
 	private int makerId;
 	
-	public Model(String modelName, int yearFounded, String country, int makerId) {
+	public Model(String modelName, String yearFounded, String country, int makerId) {
 		super();
 		this.modelName = modelName;
 		this.yearFounded = yearFounded;
@@ -39,11 +39,11 @@ public class Model {
 		this.modelName = brandName;
 	}
 
-	public int getYearFounded() {
+	public String getYearFounded() {
 		return yearFounded;
 	}
 
-	public void setYearFounded(int yearFounded) {
+	public void setYearFounded(String yearFounded) {
 		this.yearFounded = yearFounded;
 	}
 
