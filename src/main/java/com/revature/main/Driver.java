@@ -1,6 +1,7 @@
 package com.revature.main;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import com.revature.dao.CarDao;
 import com.revature.dao.ModelDao;
@@ -87,17 +88,22 @@ public class Driver {
 		int modelPrimaryKey = modelDao.insert(model);
 
 		//Create a car object.
-		//CREATE A DAO FOR THE MODEL CLASS IN ORDER TO GET THE PRIMARY KEY TO INSERT IT INTO THE CAR OBJECT.
-		Car supra = new Car("Toyota", "Supra", 2021, "Silver", 382, 3.7, 155.0, 32, carType, transmission, modelPrimaryKey);
-		
+		Car supra = new Car("Toyota", "Supra", "2021", "Silver", 382, 3.7, 155.0, 32, carType, transmission, modelPrimaryKey);
+		Car viper = new Car("Dodge", "Viper", "1994", "blue", 645, 3.0, 206, 12, carType, transmission, modelPrimaryKey);
+
 		//insert it using CarDao.
 		int carPrimaryKey = carDao.insert(supra);
 		
-		//boolean deleted = dao.delete(supra);
+		Scanner scanner = new Scanner(System.in);
 		
-		//boolean updated = dao.update(supra, 1);
+		int choice = scanner.nextInt();
 		
-		//System.out.println(pk);
+		if(choice == 1) {	
+			modelDao.update(model, modelPrimaryKey);
+			carDao.update(viper, carPrimaryKey);
+
+		}
+				
 	}
 
 }

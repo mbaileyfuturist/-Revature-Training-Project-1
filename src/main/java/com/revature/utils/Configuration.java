@@ -9,7 +9,7 @@ public class Configuration {
 	private String username;
 	private String password;
 	
-	Configuration(){
+	public Configuration(){
 		username = "";
 		password = "";
 	}
@@ -18,11 +18,11 @@ public class Configuration {
 		this.username = username;
 		this.password = password;
 	}
-
+	
 	public Connection connectToDataBase() {
 		
 		//Not to sure about this URL.
-		String URL = "jdbc:postgresql://localhost/postgres?user=postgres&password=Mikespasword123$";
+		String URL = "jdbc:postgresql://localhost/postgres?user="+username+"&password="+password+"";
 		Connection connection = null;
 		
 		try {

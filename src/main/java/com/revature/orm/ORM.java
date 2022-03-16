@@ -82,7 +82,7 @@ public class ORM {
 			}
 			
 			if(columnField.getColumnName().equals("manufacturer_id")) {
-				typeAndRestrictions = "INTEGER REFERENCES manufacturer(id)";
+				typeAndRestrictions = "INTEGER REFERENCES manufacturer(id) ON DELETE CASCADE";
 			}
 			
 			if(columnField.getColumnName().equals("model_id")) {
@@ -205,7 +205,7 @@ public class ORM {
 				preparedStatement.setString(3, ((Car) genericObject.getObject()).getTransmission().toString());
 				preparedStatement.setString(4, ((Car) genericObject.getObject()).getColor());
 				preparedStatement.setDouble(5, ((Car) genericObject.getObject()).getMpg());
-				preparedStatement.setInt(6, ((Car) genericObject.getObject()).getYear());
+				preparedStatement.setString(6, ((Car) genericObject.getObject()).getYear());
 				preparedStatement.setDouble(7, ((Car) genericObject.getObject()).getTopspeed());
 				preparedStatement.setString(8, ((Car) genericObject.getObject()).getModel());
 				preparedStatement.setInt(9, ((Car) genericObject.getObject()).getModelId());
@@ -229,28 +229,33 @@ public class ORM {
 		
 	}
 	
-	public boolean remove(Object object) {
+	public boolean remove(String keyWord, int primaryKey) {
 		
 		boolean deleted = false;
 		
-		Generic<Object> genericObject = new Generic<Object>(object);
-		
-		Class objectClass = object.getClass();
+		Class objectClass = null;
+		if(keyWord.equals("Car")) {
+			objectClass = Car.class;
+
+		}else if(keyWord.equals("Model")) {
+			objectClass = Model.class;
+
+		}
 		
 		try {
 			Statement statement = connection.createStatement();
 			
 			String deleteStatement = "";
 			if(objectClass.getSimpleName().equals("Car")) {
-				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE model='" + ((Car) genericObject.getObject()).getModel() + "'";
+				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE id='" + primaryKey + "'";
+				deleted = true;
 			}else if(objectClass.getSimpleName().equals("Model")){
-				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE model_name='" + ((Model) genericObject.getObject()).getModelName() + "'";
+				deleteStatement = "DELETE FROM " + objectClass.getSimpleName() + " WHERE id='" + primaryKey + "'";
+				deleted = true;
 			}
 			
 			statement.execute(deleteStatement);
-			
-			deleted = true;
-			
+						
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -258,21 +263,21 @@ public class ORM {
 		return deleted;
 	}
 	
-	public boolean change(Car car, int primaryKey) {
+	public boolean change(String keyWord, Object object, int primaryKey) {
 		
 		boolean updated = false;
 		
-		Class carClass = car.getClass();
+		Generic<Object> genericObject = new Generic<Object>(object);
+		
+		Class<? extends Object> objectClass = genericObject.getObject().getClass();
 		
 		try {
 			
-			StringBuilder updateStatement = new StringBuilder("UPDATE " + carClass.getSimpleName() + " SET ");
+			StringBuilder updateStatement = new StringBuilder("UPDATE " + objectClass.getSimpleName() + " SET ");
 			
-			Field[] fields = carClass.getDeclaredFields();
+			Field[] fields = objectClass.getDeclaredFields();
 			
 			for(int index = 0; index < fields.length; index++) {
-				//We use the colimnField object to extract the custom column
-				//name from @Column annotation.
 				ColumnField columnField = new ColumnField(fields[index]);
 				
 				if(!columnField.getColumnName().equals("id")) {
@@ -287,22 +292,30 @@ public class ORM {
 			
 			updateStatement.append(" WHERE id=" + primaryKey);
 			
+			System.out.println(updateStatement.toString());
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(updateStatement.toString());
 			
-			preparedStatement.setString(1, car.getMake());
-			preparedStatement.setString(2, car.getModel());
-			preparedStatement.setInt(3, car.getYear());
-			preparedStatement.setString(4, car.getColor());
-			preparedStatement.setInt(5, car.getHorsePower());
-			preparedStatement.setDouble(6, car.getZeroToSixty());
-			preparedStatement.setDouble(7, car.getTopspeed());
-			preparedStatement.setDouble(8, car.getMpg());
-			preparedStatement.setString(9, car.getCarType().toString());
-			preparedStatement.setString(10, car.getTransmission().toString());
+			if(objectClass.getSimpleName().equals("Car")) {
+				preparedStatement.setString(1, ((Car) genericObject.getObject()).getMake());
+				preparedStatement.setString(2, ((Car) genericObject.getObject()).getModel());
+				preparedStatement.setString(3, ((Car) genericObject.getObject()).getYear());
+				preparedStatement.setString(4, ((Car) genericObject.getObject()).getColor());
+				preparedStatement.setInt(5, ((Car) genericObject.getObject()).getHorsePower());
+				preparedStatement.setDouble(6, ((Car) genericObject.getObject()).getZeroToSixty());
+				preparedStatement.setDouble(7, ((Car) genericObject.getObject()).getTopspeed());
+				preparedStatement.setDouble(8, ((Car) genericObject.getObject()).getMpg());
+				preparedStatement.setString(9, ((Car) genericObject.getObject()).getCarType().toString());
+				preparedStatement.setString(10, ((Car) genericObject.getObject()).getTransmission().toString());
+				preparedStatement.setInt(11, ((Car) genericObject.getObject()).getModelId());
+			}else if(objectClass.getSimpleName().equals("Model")) {
+				preparedStatement.setString(1, ((Model) genericObject.getObject()).getmodelName());
+				preparedStatement.setString(2, ((Model) genericObject.getObject()).getYearFounded());
+				preparedStatement.setString(3, ((Model) genericObject.getObject()).getCountry());
+				preparedStatement.setInt(4, ((Model) genericObject.getObject()).getMakerId());
+			}
 
 			preparedStatement.executeUpdate();
-
-			System.out.println(updateStatement.toString());
 			
 			updated = true;
 

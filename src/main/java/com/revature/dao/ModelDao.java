@@ -24,12 +24,20 @@ private ORM orm = new ORM();
 		return primaryKey;
 	}
 	
-	public boolean delete(Model model) {
+	public boolean delete(int primaryKey) {
 		
-		boolean deleted = orm.remove(model);
+		boolean deleted = orm.remove("Model", primaryKey);
 		
 		return deleted;
 		
+	}
+	
+	public boolean update(Model model, int primaryKey) {
+		
+		boolean changed = orm.change("Model", model, primaryKey);
+		
+		return changed;	
+	
 	}
 
 }

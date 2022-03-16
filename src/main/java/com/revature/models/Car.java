@@ -20,7 +20,7 @@ public class Car {
 	private String model;
 	
 	@Column(name = "manufacture_year")
-	private int year;
+	private String year;
 	
 	@Column(name = "color")
 	private String color;
@@ -45,7 +45,7 @@ public class Car {
 	
 	@Column(name="model_id")
 	private int modelId;
-			
+				
 	public Car() {
 		
 	}
@@ -62,7 +62,7 @@ public class Car {
 		
 	}
 
-	public Car(String make, String model, int year, String color, int horsePower, double zeroToSixty,
+	public Car(String make, String model, String year, String color, int horsePower, double zeroToSixty,
 			double topSpeed, double mpg, CarType carType, TransmissionType transmission, int modelId) {
 		super();
 		this.make = make;
@@ -78,7 +78,7 @@ public class Car {
 		this.modelId = modelId;
 	}
 
-	public Car(int carId, String make, String model, int year, String color, int horsePower, double zeroToSixty,
+	public Car(int carId, String make, String model, String year, String color, int horsePower, double zeroToSixty,
 			double topSpeed, double mpg, CarType carType, TransmissionType transmission) {
 		super();
 		this.carId = carId;
@@ -118,11 +118,11 @@ public class Car {
 		this.model = model;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
@@ -200,7 +200,8 @@ public class Car {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(carId, color, horsePower, make, model, mpg, topSpeed, year, zeroToSixty);
+		return Objects.hash(carId, carType, color, horsePower, make, model, modelId, mpg, topSpeed, transmission, year,
+				zeroToSixty);
 	}
 
 	@Override
@@ -212,12 +213,13 @@ public class Car {
 		if (getClass() != obj.getClass())
 			return false;
 		Car other = (Car) obj;
-		return carId == other.carId && Objects.equals(color, other.color) && horsePower == other.horsePower
-				&& Objects.equals(make, other.make) && Objects.equals(model, other.model)
+		return carId == other.carId && carType == other.carType && Objects.equals(color, other.color)
+				&& horsePower == other.horsePower && Objects.equals(make, other.make)
+				&& Objects.equals(model, other.model) && modelId == other.modelId
 				&& Double.doubleToLongBits(mpg) == Double.doubleToLongBits(other.mpg)
 				&& Double.doubleToLongBits(topSpeed) == Double.doubleToLongBits(other.topSpeed)
-				&& Double.doubleToLongBits(year) == Double.doubleToLongBits(other.year)
+				&& transmission == other.transmission && Objects.equals(year, other.year)
 				&& Double.doubleToLongBits(zeroToSixty) == Double.doubleToLongBits(other.zeroToSixty);
 	}
-	
+
 }

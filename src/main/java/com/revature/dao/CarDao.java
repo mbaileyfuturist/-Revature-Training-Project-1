@@ -24,9 +24,9 @@ public class CarDao {
 		return primaryKey;
 	}
 	
-	public boolean delete(Car car) {
+	public boolean delete(int primaryKey) {
 		
-		boolean deleted = orm.remove(car);
+		boolean deleted = orm.remove("Car", primaryKey);
 		
 		return deleted;
 		
@@ -34,10 +34,14 @@ public class CarDao {
 	
 	public boolean update(Car car, int primaryKey) {
 		
-		boolean changed = orm.change(car, primaryKey);
+		boolean changed = orm.change("Car", car, primaryKey);
 		
 		return changed;
 				
 	}
+	
+	//Select Car by primary.
+	
+	//Select All method.
 
 }
