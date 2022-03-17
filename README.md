@@ -11,7 +11,8 @@ The best ORM is a project used to map a Java class to a Postgress SQL table in a
 * JUnit
   
 ## Usage  
-  ### Annotating classes  
+  ### Annotating Useage
+  The custom annotations listed below are used to extract a custom name for a field or a class.
    - #### @Table(name = "table_name)  
       - Indicates that this class is associated with table 'table_name'  
    - #### @Column(name = "column_name)  
