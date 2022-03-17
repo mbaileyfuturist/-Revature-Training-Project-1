@@ -13,7 +13,10 @@ import com.revature.models.Manufacturer;
 import com.revature.models.Model;
 
 public class Driver {
-
+	
+	static CarDao carDao = new CarDao();
+	static ModelDao modelDao = new ModelDao();
+	
 	public static void main(String[] args) {
 		
 		CarDao carDao = new CarDao();
@@ -96,22 +99,186 @@ public class Driver {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		int choice = scanner.nextInt();
-		
-		if(choice == 1) {	
-//			modelDao.update(model, modelPrimaryKey);
-//			carDao.update(viper, carPrimaryKey);
-			
-		  //carDao.delete(carPrimaryKey);
-			
-			//Car car = carDao.selectCar(2);
-			
-			for(Car car: carDao.SelectAll()) {
-				System.out.println(car.toString());
-
+//		int choice = scanner.nextInt();
+//		
+//		if(choice == 1) {	
+////			modelDao.update(model, modelPrimaryKey);
+////			carDao.update(viper, carPrimaryKey);
+//			
+//		  //carDao.delete(carPrimaryKey);
+//			
+//			//Car car = carDao.selectCar(2);
+//			
+//			for(Car car: carDao.SelectAll()) {
+//				System.out.println(car.toString());
+				
+				System.out.println("Hello, please enter your username: ");
+				String username = scanner.next();
+				System.out.println("Welcome, " + username + ", please input a command from the options below: ");
+				
+				while (true) {
+					System.out.println("Press 1: Add New Entry");
+					System.out.println("Press 2: Delete Entry");
+					System.out.println("Press 3: Search for Entry");
+					System.out.println("Press 4: Update an Entry");
+					System.out.println("Press 5: View All Entries");
+					System.out.println("Press 0: Exit App");
+					
+					int input = scanner.nextInt(); 
+					
+					switch (input) {
+					case 0: 
+						System.out.println(username + " is now logging out. Goodbye.");
+						username = null;
+						return;
+					case 1:
+						add(manufacturers);    //call save method from CarORM
+						break;
+					case 2:
+						delete();  //call remove method from CarORM
+						break;
+					case 3:
+						search();   //currently no functionality 
+						break;
+					case 4:
+						update(manufacturers);   //call change method from CarORM
+						break;
+					case 5:
+						findAll();  //call CarORM class? create instance of ORM
+						break;
+					}
+							
+				}
 			}
+		
+				//insert it using CarDao.
+				//int pk = dao.insert(viper);
+				
+				//boolean deleted = dao.delete(supra);
+				
+				//boolean updated = dao.update(supra, 1);
+				
+				//System.out.println(pk);
+			
+
+
+
+		public static void add(ArrayList<Manufacturer> manufacturers) {
+			Scanner scan = new Scanner(System.in);
+			
+			System.out.println("Please input the following details for a new entry:");
+			System.out.println("Manufacturer: ");
+			String make = scan.next();
+			int manufacturerId = 0;
+			for(Manufacturer manufacturer: manufacturers) {
+				if(manufacturer.getName().equals(make)){
+					manufacturerId = manufacturers.indexOf(manufacturer) + 1;   //retrieve manufacturer ID from table via input String name
+				}
+			}
+			System.out.println("Model: ");
+			String model = scan.next();
+			System.out.println("Country: ");
+			String country = scan.next();
+			System.out.println("Color: ");
+			String color = scan.next();
+			System.out.println("Manufacture year: ");
+			String year = scan.next();
+			System.out.println("Acceleration: ");
+			double accel = scan.nextDouble();
+			System.out.println("Transmission (ALL CAPS): "); // .toUpperCase
+			String transmission = scan.next();
+			TransmissionType transEnum = TransmissionType.valueOf(transmission);
+			System.out.println("MPG: ");
+			double mpg = scan.nextDouble();
+			System.out.println("Car type (ALL CAPS): ");
+			String carType = scan.next();
+			CarType carTypeEnum = CarType.valueOf(carType);
+			System.out.println("HorsePower: ");
+			int horsePower = scan.nextInt();
+			System.out.println("Top Speed: ");
+			double topSpeed = scan.nextDouble();
+			
+			Model modelToInsert = new Model(model, year, country, manufacturerId);
+			int modelPrimaryKey = modelDao.insert(modelToInsert);
+			Car carToInsert = new Car(make, model, year, color, horsePower, accel,
+					topSpeed, mpg, carTypeEnum, transEnum, modelPrimaryKey);
+			carDao.insert(carToInsert); //add gathered parameters to insert statement (Conflict with dao and orm currently?)
 		}
+
+		public static void delete() {
+			Scanner scan = new Scanner(System.in);
+			Car c = new Car();
+			System.out.println("Please enter the PrimaryKey of the car you'd like to remove from the database: ");
+			int carToDelete = scan.nextInt();
+			carDao.delete(carToDelete);       
+		}
+
+		public static void search() {
+			// same as above, need find method findByCarName() findByCountry() findByColor() etc...
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Please enter the PrimaryKey for the car you are searching for: ");
+			int input = scan.nextInt();
+			System.out.println("Printing info for selected car:");
+			System.out.println(carDao.selectCar(input));
+		}
+
+		public static void update(ArrayList<Manufacturer> manufacturers) {
+			Scanner scan = new Scanner(System.in);
+			Car c = new Car();
+			System.out.println("Please enter the PrimaryKey of the car you'd like to remove from the database: ");
+			int carToDelete = scan.nextInt();
+			       //Need find method to isolate car object from table   (Use select all method to load table and get primary key)
+			carDao.delete(carToDelete);
+			System.out.println("Please input the following details for updated entry:");
+			System.out.println("Manufacturer: ");
+			String make = scan.next();
+			int manufacturerId = 0;
+			for(Manufacturer manufacturer: manufacturers) {
+				if(manufacturer.getName().equals(make)){
+					manufacturerId = manufacturers.indexOf(manufacturer) + 1;   //retrieve manufacturer ID from table via input String name
+				}
+			}
+			System.out.println("Model: ");
+			String model = scan.next();
+			System.out.println("Country: ");
+			String country = scan.next();
+			System.out.println("Color: ");
+			String color = scan.next();
+			System.out.println("Manufacture year: ");
+			String year = scan.next();
+			System.out.println("Acceleration: ");
+			double accel = scan.nextDouble();
+			System.out.println("Transmission (ALL CAPS): "); // .toUpperCase
+			String transmission = scan.next();
+			TransmissionType transEnum = TransmissionType.valueOf(transmission);
+			System.out.println("MPG: ");
+			double mpg = scan.nextDouble();
+			System.out.println("Car type (ALL CAPS): ");
+			String carType = scan.next();
+			CarType carTypeEnum = CarType.valueOf(carType);
+			System.out.println("HorsePower: ");
+			int horsePower = scan.nextInt();
+			System.out.println("Top Speed: ");
+			double topSpeed = scan.nextDouble();
+			
+			Model modelToInsert = new Model(model, year, country, manufacturerId);
+			int modelPrimaryKey = modelDao.insert(modelToInsert);
+			Car carToInsert = new Car(make, model, year, color, horsePower, accel,
+					topSpeed, mpg, carTypeEnum, transEnum, modelPrimaryKey);
+			carDao.insert(carToInsert); 
+		}
+
+		public static void findAll() {
+			ArrayList<Car> allCars = carDao.SelectAll(); //using carDao
+			 //Correct with fetchAll() 
+			allCars.forEach(e -> System.out.println(e));
+		}
+
+			
+		
 				
 	}
 
-}
+
+
+
