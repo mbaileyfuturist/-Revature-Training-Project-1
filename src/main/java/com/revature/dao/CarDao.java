@@ -67,7 +67,7 @@ public class CarDao {
 		return car;
 	}
 	
-//	//Select All method.
+	//Select All method.
 	public ArrayList<Car> SelectAll() {
 		
 		ArrayList<Car> cars = orm.selectAll();
