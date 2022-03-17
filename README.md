@@ -12,7 +12,6 @@ The best ORM is a project used to map a Java class to a Postgress SQL table in a
   
 ## Usage  
   ### Annotating classes  
-  All classes which represent objects in database must be annotated.
    - #### @Table(name = "table_name)  
       - Indicates that this class is associated with table 'table_name'  
    - #### @Column(name = "column_name)  
