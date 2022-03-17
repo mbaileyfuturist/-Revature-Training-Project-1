@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
+import com.revature.dao.CarDao;
 import com.revature.models.Car;
 import com.revature.models.Car.CarType;
 import com.revature.models.Car.TransmissionType;
@@ -26,7 +29,8 @@ import com.revature.utils.DefineTable;
 public class ORM {
 	
 	private Configuration config = new Configuration("postgres", "Mikespasword123$");
-	
+	private static Logger logger = Logger.getLogger(ORM.class);
+
 	//Establish a connection to the database.
 	private Connection connection = config.connectToDataBase();
 	
@@ -110,6 +114,8 @@ public class ORM {
 			statement.execute(createTable.toString());
 			
 		} catch (SQLException e) {
+			logger.error("Exception Message: " + e.getMessage() + "\nException Cause: " + e.getCause() + "\n\nPlease view the console for "
+					+ "more information.");
 			e.printStackTrace();
 		}
 		
@@ -128,6 +134,9 @@ public class ORM {
 		for(Manufacturer manufacturer: manufacturers) {
 			save(manufacturer);
 		}
+		
+		logger.info("Country and Manufacturer tables have successfully been initialized with data");
+
 	}
 	
 	public int save(Object object){
@@ -224,6 +233,8 @@ public class ORM {
 				return id; 
 			}
 		} catch (SQLException e) {
+			logger.error("Exception Message: " + e.getMessage() + "\nException Cause: " + e.getCause() + "\n\nPlease view the console for "
+					+ "more information.");
 			e.printStackTrace();
 		}
 		
@@ -323,6 +334,8 @@ public class ORM {
 
 
 		} catch (SQLException e) {
+			logger.error("Exception Message: " + e.getMessage() + "\nException Cause: " + e.getCause() + "\n\nPlease view the console for "
+					+ "more information.");
 			e.printStackTrace();
 		}
 		
@@ -368,6 +381,8 @@ public class ORM {
 				car.setModelId(rs.getInt("model_id"));
 			}
 		} catch (SQLException e) {
+			logger.error("Exception Message: " + e.getMessage() + "\nException Cause: " + e.getCause() + "\n\nPlease view the console for "
+					+ "more information.");
 			e.printStackTrace();
 		}
 		return car;
@@ -403,6 +418,8 @@ public class ORM {
 						rs.getInt("horse_power"), rs.getDouble("acceleration"), rs.getDouble("top_speed"), rs.getDouble("mpg"), carType, transmissionType, rs.getInt("model_id")));
 			}
 		}catch(SQLException e) {
+			logger.error("Exception Message: " + e.getMessage() + "\nException Cause: " + e.getCause() + "\n\nPlease view the console for "
+					+ "more information.");
 			e.printStackTrace();
 		}
 		
