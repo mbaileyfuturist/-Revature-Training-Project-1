@@ -1,0 +1,4 @@
+2022-03-17 02:02:09 INFO  revature.dao.ModelDao:29 - A record in the Car table with an id=13 has successfully been inserted.
+2022-03-17 02:02:09 INFO  revature.dao.CarDao:28 - A car object has successfully been inserted into the Car table with primary key 13
+2022-03-17 02:02:45 INFO  revature.dao.ModelDao:29 - A record in the Car table with an id=14 has successfully been inserted.
+2022-03-17 02:02:45 INFO  revature.dao.CarDao:28 - A car object has successfully been inserted into the Car table with primary key 14
