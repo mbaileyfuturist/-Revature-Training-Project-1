@@ -6,7 +6,12 @@ import com.revature.annotations.Column;
 import com.revature.annotations.Table;
 import com.revature.models.Car.CarType;
 
-// Fetches some data about the country where the car was produced 
+/*
+ *  This Country class represents a persistence domain object
+ *  that will map into a postgreSQL Database using The Best ORM
+ *  creating a "Country" Table, where every field is a property of that table 
+ */
+
 @Table(name = "Countries")
 public class Country {
 	

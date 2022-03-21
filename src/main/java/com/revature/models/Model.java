@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.revature.annotations.Column;
 import com.revature.annotations.Table;
 
+
 @Table(name="Models")
 public class Model {
 	

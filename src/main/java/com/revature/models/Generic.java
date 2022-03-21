@@ -1,5 +1,7 @@
 package com.revature.models;
 
+
+
 public class Generic<T> {
 	
 	T object;

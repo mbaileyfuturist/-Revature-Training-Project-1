@@ -5,6 +5,11 @@ import java.util.Objects;
 import com.revature.annotations.Column;
 import com.revature.annotations.Table;
 
+/*
+ *  This Car class represents a persistence domain object
+ *  that will map into a postgreSQL Database using The Best ORM
+ *  creating a "Car" Table, where every field is a property of that table 
+ */
 
 @Table(name = "car_details")
 public class Car {
